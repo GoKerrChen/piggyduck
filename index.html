@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>鸭鸭 | 美股投资博主</title>
+  <meta name="description" content="鸭鸭的美股投资主页，聚焦美股指数、科技股、期权结构、宏观事件与交易复盘。" />
+  <style>
+    :root {
+      --bg: #07080b;
+      --card: #10131a;
+      --card-2: #151a24;
+      --text: #f4f1e8;
+      --muted: #a9adba;
+      --gold: #d7a84f;
+      --gold-2: #f3d27a;
+      --red: #ff5f5f;
+      --green: #39d98a;
+      --line: rgba(255,255,255,0.10);
+      --shadow: 0 18px 60px rgba(0,0,0,0.35);
+      --radius: 24px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(215,168,79,0.16), transparent 34%),
+        radial-gradient(circle at 80% 10%, rgba(57,217,138,0.08), transparent 25%),
+        linear-gradient(180deg, #07080b 0%, #090b10 48%, #050609 100%);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .ticker {
+      width: 100%;
+      border-bottom: 1px solid var(--line);
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .ticker-inner {
+      display: inline-flex;
+      gap: 28px;
+      padding: 10px 0;
+      animation: ticker 28s linear infinite;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    .ticker span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .up { color: var(--green); }
+    .down { color: var(--red); }
+    .gold { color: var(--gold-2); }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 36px));
+      margin: 0 auto;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--gold), #6f4c16);
+      display: grid;
+      place-items: center;
+      color: #111;
+      font-weight: 900;
+      box-shadow: 0 8px 30px rgba(215,168,79,0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold-2);
+    }
+
+    .hero {
+      padding: 56px 0 34px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 34px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      border: 1px solid rgba(215,168,79,0.35);
+      color: var(--gold-2);
+      background: rgba(215,168,79,0.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 76px);
+      line-height: 1.03;
+      letter-spacing: -0.06em;
+      margin-bottom: 22px;
+    }
+
+    h1 .accent {
+      background: linear-gradient(90deg, #fff, var(--gold-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 680px;
+      margin-bottom: 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      border: 1px solid var(--line);
+      transition: 0.22s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-2), var(--gold));
+      color: #111;
+      box-shadow: 0 14px 40px rgba(215,168,79,0.20);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(215,168,79,0.55);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 650px;
+    }
+
+    .stat {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.035);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 20px;
+      color: var(--text);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .terminal-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(21,26,36,0.95), rgba(10,12,17,0.95));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .terminal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.24);
+    }
+
+    .terminal-body {
+      padding: 22px;
+    }
+
+    .watchlist {
+      display: grid;
+      gap: 10px;
+    }
+
+    .watch-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .watch-row b {
+      letter-spacing: 0.04em;
+    }
+
+    .tag {
+      border: 1px solid rgba(215,168,79,0.28);
+      color: var(--gold-2);
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: rgba(215,168,79,0.06);
+    }
+
+    section {
+      padding: 62px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      max-width: 520px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
+      box-shadow: 0 10px 35px rgba(0,0,0,0.22);
+    }
+
+    .card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      padding: 8px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      background: rgba(0,0,0,0.18);
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 18px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: rgba(255,255,255,0.035);
+    }
+
+    .time-label {
+      color: var(--gold-2);
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .timeline-item p {
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .content-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -70px auto;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(215,168,79,0.10);
+      filter: blur(8px);
+    }
+
+    .contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .contact-box {
+      padding: 28px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(215,168,79,0.25);
+      background:
+        linear-gradient(135deg, rgba(215,168,79,0.14), rgba(255,255,255,0.035)),
+        rgba(255,255,255,0.03);
+    }
+
+    .contact-box h3 {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .contact-list {
+      list-style: none;
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      color: var(--muted);
+    }
+
+    .contact-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .disclaimer {
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--line);
+      padding: 24px 0 44px;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-bottom: 28px;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid-3,
+      .grid-2,
+      .contact {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: block;
+      }
+
+      .section-head p {
+        margin-top: 10px;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>QQQ <b class="up">趋势强弱</b></span>
+      <span>SPY <b class="gold">核心风向</b></span>
+      <span>IWM <b class="down">风险温度计</b></span>
+      <span>NVDA <b class="gold">AI 主线</b></span>
+      <span>GLD <b class="gold">避险观察</b></span>
+      <span>USO <b class="up">油价变量</b></span>
+      <span>VIX <b class="down">情绪压力</b></span>
+      <span>QQQ <b class="up">趋势强弱</b></span>
+      <span>SPY <b class="gold">核心风向</b></span>
+      <span>IWM <b class="down">风险温度计</b></span>
+      <span>NVDA <b class="gold">AI 主线</b></span>
+      <span>GLD <b class="gold">避险观察</b></span>
+      <span>USO <b class="up">油价变量</b></span>
+      <span>VIX <b class="down">情绪压力</b></span>
+    </div>
+  </div>
+
+  <header class="container">
+    <nav>
+      <a href="#" class="brand">
+        <span class="logo">鸭</span>
+        <span>鸭鸭 · 美股投资博主</span>
+      </a>
+      <div class="nav-links">
+        <a href="#about">关于我</a>
+        <a href="#framework">分析框架</a>
+        <a href="#content">内容栏目</a>
+        <a href="#community">社群入口</a>
+      </div>
+    </nav>
+
+    <div class="hero">
+      <div>
+        <div class="eyebrow">美股 · 宏观事件 · 期权结构 · 交易复盘</div>
+        <h1>用大白话讲清楚<br><span class="accent">美股真正交易什么</span></h1>
+        <p class="lead">
+          我是鸭鸭，专注美股指数、科技股、AI 主线、黄金、原油、期权结构和事件驱动交易。
+          这里不堆复杂术语，只做一件事：把市场情绪、资金方向和关键交易位置讲清楚。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#community">加入观察列表</a>
+          <a class="btn btn-secondary" href="#framework">查看分析框架</a>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <strong>盘前 / 盘中</strong>
+            <span>指数强弱与关键点位</span>
+          </div>
+          <div class="stat">
+            <strong>事件驱动</strong>
+            <span>财报、FOMC、CPI、地缘风险</span>
+          </div>
+          <div class="stat">
+            <strong>交易复盘</strong>
+            <span>仓位、胜率、盈亏比与风控</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="terminal-card">
+        <div class="terminal-top">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <span>MARKET DASHBOARD</span>
+        </div>
+        <div class="terminal-body">
+          <div class="watchlist">
+            <div class="watch-row"><b>QQQ</b><span class="tag">科技情绪</span><span class="up">强弱核心</span></div>
+            <div class="watch-row"><b>SPY</b><span class="tag">大盘基准</span><span class="gold">方向确认</span></div>
+            <div class="watch-row"><b>IWM</b><span class="tag">小盘风险</span><span class="down">利率敏感</span></div>
+            <div class="watch-row"><b>NVDA</b><span class="tag">AI 龙头</span><span class="gold">资金锚点</span></div>
+            <div class="watch-row"><b>GLD / USO</b><span class="tag">跨资产</span><span class="up">宏观变量</span></div>
+            <div class="watch-row"><b>VIX / DXY</b><span class="tag">情绪指标</span><span class="down">风险信号</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="about" class="container">
+      <div class="section-head">
+        <h2>关于鸭鸭</h2>
+        <p>面向普通投资者，把复杂的市场拆成清楚的逻辑链。</p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>我关注什么</h3>
+          <p>QQQ、SPY、IWM、科技七巨头、AI 硬件链、黄金、原油、美元、美债和市场情绪。</p>
+        </div>
+        <div class="card">
+          <h3>我擅长什么</h3>
+          <p>把宏观事件、板块轮动、期权结构、关键价位和资金强弱组合到一张交易地图里。</p>
+        </div>
+        <div class="card">
+          <h3>我不做什么</h3>
+          <p>不神化预测，不喊单式表达，不把单一消息当成完整交易逻辑。每一笔交易都要有失效点。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="framework" class="container">
+      <div class="section-head">
+        <h2>我的分析框架</h2>
+        <p>先看市场在交易什么，再看哪里值得下注，最后看错了怎么办。</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>1. 指数强弱</h3>
+          <p>先比较 QQQ、SPY、IWM。科技强说明风险偏好还在，小盘弱说明利率或经济压力还没解除。</p>
+          <div class="pill-list">
+            <span class="pill">QQQ</span>
+            <span class="pill">SPY</span>
+            <span class="pill">IWM</span>
+            <span class="pill">市场宽度</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>2. 跨资产验证</h3>
+          <p>同步观察美元、美债、黄金、原油和 VIX。单看股指很容易误判，跨资产能看出资金真实态度。</p>
+          <div class="pill-list">
+            <span class="pill">DXY</span>
+            <span class="pill">10Y Yield</span>
+            <span class="pill">GLD</span>
+            <span class="pill">USO</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>3. 期权结构</h3>
+          <p>重点看 call wall、put wall、gamma flip、max pain 和近端成交。它们决定短线哪里容易被压住，哪里容易加速。</p>
+          <div class="pill-list">
+            <span class="pill">Call Wall</span>
+            <span class="pill">Put Wall</span>
+            <span class="pill">Gamma</span>
+            <span class="pill">IV</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>4. 交易计划</h3>
+          <p>每个观点最后都要落到三个问题：什么位置做，错了哪里走，赚了如何分批处理。</p>
+          <div class="pill-list">
+            <span class="pill">入场条件</span>
+            <span class="pill">止损位置</span>
+            <span class="pill">止盈节奏</span>
+            <span class="pill">仓位控制</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="content" class="container">
+      <div class="section-head">
+        <h2>内容栏目</h2>
+        <p>适合盘前准备、盘中跟踪、收盘复盘和财报周交易计划。</p>
+      </div>
+      <div class="grid-3">
+        <div class="card content-card">
+          <h3>盘前路线图</h3>
+          <p>用最短时间看清楚今天大盘的主线、关键点位、强弱板块和风险事件。</p>
+        </div>
+        <div class="card content-card">
+          <h3>财报周拆解</h3>
+          <p>分析市场提前定价了什么，财报前 IV 怎么走，财报后最怕什么。</p>
+        </div>
+        <div class="card content-card">
+          <h3>交易复盘</h3>
+          <p>复盘真实交易的胜率、盈亏比、仓位变化和执行问题，避免靠情绪交易。</p>
+        </div>
+        <div class="card content-card">
+          <h3>AI 主线跟踪</h3>
+          <p>从芯片、服务器、散热、电力、光模块到软件应用，看资金到底押在哪一层。</p>
+        </div>
+        <div class="card content-card">
+          <h3>黄金与原油</h3>
+          <p>用地缘风险、美元、美债和通胀预期，判断避险资产与能源股的交易窗口。</p>
+        </div>
+        <div class="card content-card">
+          <h3>小号挑战</h3>
+          <p>记录小资金账户如何做趋势、控制回撤、处理亏损和优化交易系统。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="section-head">
+        <h2>每日观察流程</h2>
+        <p>用固定流程减少盘中情绪干扰。</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="time-label">盘前</div>
+          <div>
+            <h3>先定今天市场主线</h3>
+            <p>看期货、美元、美债、黄金、原油、新闻催化和主要权重股盘前表现。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time-label">开盘后 30 分钟</div>
+          <div>
+            <h3>确认资金是否真的认可</h3>
+            <p>观察高开低走、低开高走、板块分化、权重股是否同步，避免被第一根情绪 K 线骗进去。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time-label">盘中</div>
+          <div>
+            <h3>只围绕关键位置交易</h3>
+            <p>靠近支撑看承接，靠近压力看抛压。没有好位置，不硬做。</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="time-label">收盘后</div>
+          <div>
+            <h3>复盘逻辑有没有被市场验证</h3>
+            <p>总结哪个判断对，哪个判断错，下一次同类行情应该如何调整仓位和节奏。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="community" class="container">
+      <div class="contact">
+        <div class="contact-box">
+          <h3>关注鸭鸭的美股观察</h3>
+          <p>
+            这里可以放你的社群二维码、直播间链接、小红书主页、YouTube、X、公众号或邮件订阅入口。
+          </p>
+          <ul class="contact-list">
+            <li><span>小红书</span><strong>填写你的主页链接</strong></li>
+            <li><span>直播频道</span><strong>填写直播入口</strong></li>
+            <li><span>社群入口</span><strong>填写社群方式</strong></li>
+            <li><span>合作联系</span><strong>填写邮箱 / 微信</strong></li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>适合谁看</h3>
+          <p>
+            适合想看懂美股主线、指数强弱、科技股轮动、事件驱动和期权结构的人。
+            如果你希望每次交易前都能先问清楚“市场在交易什么”，这里会很适合。
+          </p>
+          <div class="pill-list">
+            <span class="pill">美股新手</span>
+            <span class="pill">指数交易者</span>
+            <span class="pill">科技股投资者</span>
+            <span class="pill">期权学习者</span>
+            <span class="pill">交易复盘者</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="container disclaimer">
+    <strong>风险提示：</strong>
+    本页面内容仅用于个人投资研究、市场观察和教育交流，不构成任何投资建议、收益承诺或买卖指令。
+    美股、期权、杠杆产品和加密资产均存在较高波动风险，任何交易决策请自行判断并控制仓位。
+  </div>
+
+  <footer class="container">
+    <span>© 2026 鸭鸭 · 美股投资观察</span>
+    <span>Built as a single-file personal homepage</span>
+  </footer>
+</body>
+</html>
